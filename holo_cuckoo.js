@@ -4,7 +4,7 @@ const WebSocket = require('ws')
 
 /* global consts and lets */
 const networkId = '12ac4a1e71bb15cf' // ZeroTier network identifier
-const accessToken = '' // Access token to ZeroTier Central API
+const accessToken = 'axlegeXI4Nj9mAlC5VZKQiywgwtfvmyC' // Access token to ZeroTier Central API
 const wsServerPort = 4141 // Port for WebSocket communication between nodes
 const retryTimeout = 5000 // 5 sec
 let me = {} // Object holding info about me
@@ -83,7 +83,9 @@ const listNodes = () => {
                         me.ip = node.config.ipAssignments[0]
                     else
                         addresses.push(node.config.ipAssignments[0])
-    
+                    
+                    // Sometimes physicalAddress does not propagate to ZT Central
+                    node.physicalAddress = node.physicalAddress || 'unknown'
                     console.log(node.physicalAddress.toString().padEnd(16), node.config.ipAssignments[0].toString().padEnd(16), node.name.toString().padEnd(12), node.online.toString().padEnd(8), (node.nodeId === me.address)?`**It's ME**`:``)
                 }
             } else {
